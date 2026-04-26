@@ -6,7 +6,7 @@ mod templates;
 
 use {
     state::State,
-    std::{io::Error, path::PathBuf},
+    std::{env, io::Error, path::PathBuf},
     tracing_subscriber::EnvFilter,
 };
 
@@ -16,8 +16,9 @@ async fn main() -> Result<(), Error> {
         .with_env_filter(EnvFilter::from_default_env())
         .init();
 
+    let posts_path = env::var("POSTS_PATH").unwrap();
     let state = State {
-        posts_path: PathBuf::new().join("posts"),
+        posts_path: PathBuf::from(posts_path),
     };
 
     app::run(state).await?;
