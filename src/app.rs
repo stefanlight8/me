@@ -5,7 +5,7 @@ use {
     std::io::Error,
 };
 
-pub async fn run(state: State) -> Result<(), Error> {
+pub async fn run(state: State, addr: String, port: u16) -> Result<(), Error> {
     let data = Data::new(state);
 
     HttpServer::new(move || {
@@ -14,7 +14,7 @@ pub async fn run(state: State) -> Result<(), Error> {
             .service(Files::new("/static", "./static"))
             .configure(posts::configure)
     })
-    .bind(("127.0.0.1", 8080))?
+    .bind((addr, port))?
     .run()
     .await
 }

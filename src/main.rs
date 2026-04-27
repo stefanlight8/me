@@ -17,11 +17,14 @@ async fn main() -> Result<(), Error> {
         .init();
 
     let posts_path = env::var("POSTS_PATH").unwrap();
+    let addr = env::var("ADDRESS").unwrap();
+    let port: u16 = env::var("PORT").unwrap().parse().unwrap();
+
     let state = State {
         posts_path: PathBuf::from(posts_path),
     };
 
-    app::run(state).await?;
+    app::run(state, addr, port).await?;
 
     Ok(())
 }
